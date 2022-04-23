@@ -1,12 +1,15 @@
 <template>
   <div id="app">
-    <h1>Weather App</h1>
+    <IndexPage />
   </div>
 </template>
 
 <script>
+import IndexPage from "@/pages/Index.vue";
+
 export default {
   name: "App",
+  components: { IndexPage },
 };
 </script>
 
@@ -19,18 +22,7 @@ body {
   background-image: linear-gradient(to bottom, #2868b4, #143a67);
   width: 100%;
   height: 100vh;
-}
-
-#app {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-
-  h1 {
-    margin: 0;
-    font-family: "Roboto", sans-serif;
-    color: #ffffff;
-  }
+  font-family: "Roboto", sans-serif;
+  color: #ffffff;
 }
 </style>
