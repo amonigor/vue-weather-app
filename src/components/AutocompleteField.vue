@@ -122,6 +122,7 @@ export default {
     position: absolute;
     list-style: none;
     padding: 10px 0;
+    background-color: #2868b4;
     background-image: linear-gradient(
       to bottom,
       rgba(255, 255, 255, 0.4) 0%,
@@ -130,6 +131,8 @@ export default {
     width: 400px;
     border-radius: 12px;
     margin: 5px 0;
+    -webkit-box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.5);
+    box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.5);
 
     .suggestion {
       font-size: 1rem;

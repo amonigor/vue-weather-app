@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import IndexPage from "@/pages/Index.vue";
+import IndexPage from "@/pages/main/Index.vue";
 
 export default {
   name: "App",

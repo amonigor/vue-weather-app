@@ -1,17 +1,19 @@
 <template>
   <div class="container">
-    <div class="row center">
+    <div class="row center mb-60">
       <AutocompleteField />
     </div>
+    <TodayForecast class="row mb-30" />
   </div>
 </template>
 
 <script>
 import AutocompleteField from "@/components/AutocompleteField.vue";
+import TodayForecast from "@/pages/main/components/TodayForecast.vue";
 
 export default {
   name: "index-page",
-  components: { AutocompleteField },
+  components: { AutocompleteField, TodayForecast },
 };
 </script>
 
@@ -28,10 +30,19 @@ export default {
   .row {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
 
-    .center {
+    &.center {
       justify-content: center;
+    }
+
+    &.mb-60 {
+      margin-bottom: 60px;
+    }
+
+    &.mb-30 {
+      margin-bottom: 30px;
     }
   }
 }
@@ -51,6 +62,16 @@ export default {
 @media only screen and (max-width: 500px) {
   .container {
     padding: 20px 10px;
+    
+    .row {
+      &.mb-60 {
+        margin-bottom: 20px;
+      }
+
+      &.mb-30 {
+        margin-bottom: 10px;
+      }
+    }
   }
 }
 </style>
