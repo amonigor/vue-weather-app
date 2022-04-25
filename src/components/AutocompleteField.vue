@@ -6,9 +6,9 @@
       v-model="location"
       @focus="showSuggestions = true"
       @focusout="showSuggestions = false"
-      @input="searchSuggestions"
+      @input="filterSuggestions"
     />
-    <button>
+    <button @click.prevent="getForecast">
       <img src="@/assets/img/search.svg" alt="lupa" />
     </button>
 
@@ -18,42 +18,68 @@
         v-for="(suggestion, idx) in suggestions.slice(0, 5)"
         :key="idx"
       >
-        <a href="#">{{ suggestion.name }}</a>
+        <a href="#">{{ suggestion.term }}</a>
       </li>
     </ul>
   </div>
 </template>
 
 <script>
+import { mapState, mapActions, mapMutations } from "vuex";
+
 export default {
   name: "autocomplete-field",
   data() {
     return {
-      location: "",
+      location: "São Vicente",
       showSuggestions: false,
-      previousLocations: [
-        { name: "São Vicente" },
-        { name: "Santos" },
-        { name: "Florianópolis" },
-        { name: "Rio de Janeiro" },
-        { name: "Sergipe" },
-        { name: "João Pessoa" },
-        { name: "São Paulo" },
-      ],
       suggestions: [],
     };
   },
+  computed: {
+    ...mapState(["currentLocation", "previousLocations"]),
+  },
   methods: {
-    searchSuggestions: function () {
+    ...mapMutations(["setCurrentLocation"]),
+    ...mapActions(["searchLocation", "searchForecast"]),
+
+    /** APIs functions */
+    filterSuggestions: function () {
+      // Filter the suggestions by the search term
       const newSuggestions = this.previousLocations.filter((location) => {
         const term = this.standardizeWord(this.location);
-        const suggestion = this.standardizeWord(location.name);
+        const suggestion = this.standardizeWord(location.term);
         return suggestion.indexOf(term) !== -1;
       });
 
       this.suggestions = newSuggestions;
     },
+    searchInSuggestions: function () {
+      // Return the suggestion element or undefined
+      return this.suggestions.find(
+        (suggestion) => suggestion.term === this.location
+      );
+    },
+    getForecast: async function () {
+      // Search for the location given in the suggestions
+      const suggestion = this.searchInSuggestions();
+
+      // If is not in the suggestions, will search on the API
+      if (suggestion !== undefined) {
+        this.setCurrentLocation(suggestion);
+      } else {
+        await this.searchLocation(this.location);
+      }
+
+      // Finally, if is a valid locaiton, will search the forecast
+      if (this.currentLocation !== null) {
+        this.searchForecast(this.currentLocation.coordinates);
+      }
+    },
+
+    /** Helpers */
     standardizeWord: function (word) {
+      // Remove all the special chars to be easy to avoid errors
       return word
         .replace(/[ÀÁÂÃÄÅ]/, "A")
         .replace(/[àáâãäå]/, "a")
