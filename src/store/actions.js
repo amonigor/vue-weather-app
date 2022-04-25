@@ -2,6 +2,10 @@ import axios from "axios";
 
 export default {
   async searchLocation({ commit }, address) {
+    commit("setCurrentLocation", null);
+    commit("setCurrentForecast", null);
+    commit("setDailyForecast", []);
+    
     await axios
       .get(process.env.VUE_APP_GEOCODING_URL, {
         params: {
@@ -20,12 +24,32 @@ export default {
             term: address,
             ...res.data.results[0],
           });
-
           return;
         }
+      });
+  },
 
-        if (res.data.status === "ZERO_RESULTS") {
-          commit("setCurrentLocation", null);
+  async searchForecast({ commit }, coordinates) {
+    commit("setCurrentForecast", null);
+    commit("setDailyForecast", []);
+    
+    await axios
+      .get(process.env.VUE_APP_WEATHER_URL, {
+        params: {
+          lat: coordinates.lat,
+          lon: coordinates.lng,
+          exclude: "minutely,hourly,alerts",
+          units: "metrics",
+          lang: "pt_br",
+          appId: process.env.VUE_APP_WEATHER_API_KEY,
+        },
+      })
+      .then((res) => {
+        if (res.statusText === "OK") {
+          console.log(res.data)
+          commit("setCurrentForecast", res.data.current);
+          commit("setDailyForecast", res.data.daily);
+          return;
         }
       });
   },

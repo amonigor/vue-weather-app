@@ -1,4 +1,5 @@
 export default {
+  /** Current Location Mutations */
   setCurrentLocationFromAPI(state, payload) {
     state.currentLocation = {
       address: payload.formatted_address,
@@ -11,6 +12,8 @@ export default {
   setCurrentLocation(state, payload) {
     state.currentLocation = payload;
   },
+
+  /** Previous Locations Mutations */
   addPreviousLocations(state, payload) {
     const location = {
       term: payload.term,
@@ -23,4 +26,12 @@ export default {
 
     state.previousLocations.push(location);
   },
+
+  /** Forecast Mutations */
+  setCurrentForecast(state, payload) {
+    state.currentForecast = payload;
+  },
+  setDailyForecast(state, payload) {
+    state.dailyForecast = payload;
+  }
 };

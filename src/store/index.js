@@ -9,9 +9,9 @@ export default new Vuex.Store({
   state: {
     currentLocation: null,
     previousLocations: [],
+    currentForecast: null,
+    dailyForecast: [],
   },
-  getters: {},
   mutations,
   actions,
-  modules: {},
 });
