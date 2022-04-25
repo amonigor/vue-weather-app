@@ -7,6 +7,7 @@
       @focus="showSuggestions = true"
       @focusout="handleFocusOut"
       @input="filterSuggestions"
+      @keypress="handleKey"
     />
     <button @click.prevent="getForecast">
       <img src="@/assets/img/search.svg" alt="lupa" />
@@ -46,7 +47,12 @@ export default {
     ...mapState(["currentLocation", "previousLocations"]),
   },
   methods: {
-    ...mapMutations(["setCurrentLocation"]),
+    ...mapMutations([
+      "setCurrentLocation",
+      "setCurrentForecast",
+      "setDailyForecast",
+      "setMessage",
+    ]),
     ...mapActions(["searchLocation", "searchForecast"]),
 
     /** Suggestion functions */
@@ -69,6 +75,15 @@ export default {
 
     /** APIs functions */
     getForecast: async function () {
+      // Verify if a city was given
+      if (this.location === "") {
+        this.setCurrentLocation(null);
+        this.setCurrentForecast(null);
+        this.setDailyForecast([]);
+        this.setMessage("Digite uma cidade!");
+        return;
+      }
+
       // Search for the location given in the suggestions
       const suggestion = this.searchInSuggestions();
 
@@ -115,6 +130,9 @@ export default {
       }
 
       this.showSuggestions = false;
+    },
+    handleKey: function name(evt) {
+      if (evt.key === "Enter") this.getForecast();
     },
   },
 };
