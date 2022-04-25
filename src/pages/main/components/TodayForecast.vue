@@ -1,32 +1,47 @@
 <template>
   <div class="today-forecast">
     <Card class="main">
-      <p class="date">22 de abril, 22:42</p>
-      <p class="location">São Vicente, SP - Brasil</p>
+      <p class="date">{{ date }}</p>
+      <p class="location">{{ currentLocation.address }}</p>
       <div class="weather">
-        <p class="temperature">27<span>ºC</span></p>
-        <img src="https://openweathermap.org/img/wn/10d@2x.png" />
+        <p class="temperature">
+          {{ Math.round(currentForecast.temp) }}<span>ºC</span>
+        </p>
+        <img :src="`https://openweathermap.org/img/wn/${currentForecast.weather[0].icon}@2x.png`" />
       </div>
-      <p class="details">Chovendo com sensação térmica de 23 ºC</p>
+      <p class="details">
+        {{ currentForecast.weather[0].description }} com sensação térmica de
+        {{ Math.round(currentForecast.feels_like) }} ºC
+      </p>
     </Card>
 
     <Card class="other">
       <p class="title">Detalhes atuais</p>
-      <p class="item">Umidade <span>80%</span></p>
-      <p class="item">Ponto de condesação <span>20 ºC</span></p>
-      <p class="item">Índice UV <span>0</span></p>
-      <p class="item">Visibilidade <span>13 km</span></p>
-      <p class="item">Velocidade do Vento <span>1.54 m/s</span></p>
+      <p class="item">Umidade <span>{{ currentForecast.humidity }}%</span></p>
+      <p class="item">Ponto de condesação <span>{{ Math.round(currentForecast.dew_point) }} ºC</span></p>
+      <p class="item">Índice UV <span>{{ currentForecast.uvi }}</span></p>
+      <p class="item">Visibilidade <span>{{ currentForecast.visibility / 1000 }} km</span></p>
+      <p class="item">Velocidade do Vento <span>{{ currentForecast.wind_speed }} m/s</span></p>
     </Card>
   </div>
 </template>
 
 <script>
 import Card from "@/components/Card.vue";
+import { mapState } from "vuex";
+import moment from "moment";
 
 export default {
   name: "today-forecast",
   components: { Card },
+  data() {
+    return {
+      date: moment().locale("pt").format("DD [de] MMMM, HH:mm"),
+    };
+  },
+  computed: {
+    ...mapState(["currentLocation", "currentForecast"]),
+  },
 };
 </script>
 

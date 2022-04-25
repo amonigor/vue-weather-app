@@ -45,13 +45,14 @@ export default {
           lat: coordinates.lat,
           lon: coordinates.lng,
           exclude: "minutely,hourly,alerts",
-          units: "metrics",
+          units: "metric",
           lang: "pt_br",
           appId: process.env.VUE_APP_WEATHER_API_KEY,
         },
       })
       .then((res) => {
         if (res.statusText === "OK") {
+          console.log(res.data);
           commit("setMessage", null);
           commit("setCurrentForecast", res.data.current);
           commit("setDailyForecast", res.data.daily);
