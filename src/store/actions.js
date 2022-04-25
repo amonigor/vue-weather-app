@@ -31,6 +31,9 @@ export default {
         }
 
         commit("setMessage", "Não foi possível achar a localização informada.");
+      })
+      .catch(() => {
+        commit("setMessage", "Não foi possível achar a localização informada.");
       });
   },
 
@@ -58,6 +61,9 @@ export default {
           return;
         }
 
+        commit("setMessage", "Não foi possível carregar a previsão.");
+      })
+      .catch(() => {
         commit("setMessage", "Não foi possível carregar a previsão.");
       });
   },
