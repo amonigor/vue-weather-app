@@ -4,13 +4,20 @@
       <p class="date">Amanhã</p>
       <div class="weather">
         <div class="temperature">
-          <p class="max">30 ºC</p>
-          <p class="min">23 ºC</p>
+          <p class="max">{{ Math.round(tomorrowForecast.temp.max) }} ºC</p>
+          <p class="min">{{ Math.round(tomorrowForecast.temp.min) }} ºC</p>
         </div>
         <img src="https://openweathermap.org/img/wn/10d@2x.png" />
         <div class="details">
-          <p class="item">Umidade <span>80%</span></p>
-          <p class="item">Vento <span>1.54 m/s</span></p>
+          <p class="item capitalize">
+            {{ tomorrowForecast.weather[0].description }}
+          </p>
+          <p class="item">
+            Umidade <span>{{ tomorrowForecast.humidity }}%</span>
+          </p>
+          <p class="item">
+            Precipitação <span>{{ tomorrowForecast.rain }} mm</span>
+          </p>
         </div>
       </div>
       <div class="during-day">
@@ -24,29 +31,43 @@
           </tr>
           <tr>
             <td class="row-title">TEMPERATURA</td>
-            <td>23 ºC</td>
-            <td>23 ºC</td>
-            <td>23 ºC</td>
-            <td>23 ºC</td>
+            <td>{{ Math.round(tomorrowForecast.temp.morn) }} ºC</td>
+            <td>{{ Math.round(tomorrowForecast.temp.day) }} ºC</td>
+            <td>{{ Math.round(tomorrowForecast.temp.eve) }} ºC</td>
+            <td>{{ Math.round(tomorrowForecast.temp.night) }} ºC</td>
           </tr>
           <tr>
             <td class="row-title">SENSAÇÃO</td>
-            <td>23 ºC</td>
-            <td>23 ºC</td>
-            <td>23 ºC</td>
-            <td>23 ºC</td>
+            <td>{{ Math.round(tomorrowForecast.feels_like.morn) }} ºC</td>
+            <td>{{ Math.round(tomorrowForecast.feels_like.day) }} ºC</td>
+            <td>{{ Math.round(tomorrowForecast.feels_like.eve) }} ºC</td>
+            <td>{{ Math.round(tomorrowForecast.feels_like.night) }} ºC</td>
           </tr>
         </table>
       </div>
     </Card>
 
     <div class="next-days">
-      <Card class="simple" v-for="idx in [1, 2, 3, 4, 5, 6]" :key="idx">
+      <Card
+        class="simple"
+        v-for="(forecast, idx) in nextDaysForecast"
+        :key="idx"
+      >
         <div class="info">
-          <p class="date">24 de novembro</p>
-          <p class="temperature"><span>30 ºC</span> / 23 ºC</p>
+          <p class="date">
+            {{
+              moment()
+                .add(idx + 2, "days")
+                .locale("pt")
+                .format("DD [de] MMMM")
+            }}
+          </p>
+          <p class="temperature">
+            <span>{{ Math.round(forecast.temp.max) }} ºC</span> /
+            {{ Math.round(forecast.temp.min) }} ºC
+          </p>
         </div>
-        <img src="https://openweathermap.org/img/wn/10d.png" />
+        <img :src="`https://openweathermap.org/img/wn/${forecast.weather[0].icon}.png`" />
       </Card>
     </div>
   </div>
@@ -54,10 +75,27 @@
 
 <script>
 import Card from "@/components/Card.vue";
+import { mapState } from "vuex";
+import moment from "moment";
 
 export default {
   name: "next-forecast",
   components: { Card },
+  computed: {
+    ...mapState(["dailyForecast"]),
+    tomorrowForecast: function () {
+      return this.dailyForecast[0];
+    },
+    nextDaysForecast: function () {
+      return this.dailyForecast.slice(2);
+    },
+  },
+  methods: {
+    moment,
+  },
+  mounted() {
+    console.log(this.nextDaysForecast);
+  },
 };
 </script>
 
@@ -87,6 +125,12 @@ p {
 
     .details {
       .item {
+        margin: 5px;
+
+        &.capitalize {
+          text-transform: capitalize;
+        }
+
         span {
           font-weight: 600;
         }
@@ -105,12 +149,13 @@ p {
       font-size: 0.75rem;
       font-weight: 400;
     }
-    
+
     .row-title {
       text-align: left;
     }
 
-    th, td {
+    th,
+    td {
       padding: 5px;
 
       &:first-child {

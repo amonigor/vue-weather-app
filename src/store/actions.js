@@ -52,7 +52,6 @@ export default {
       })
       .then((res) => {
         if (res.statusText === "OK") {
-          console.log(res.data);
           commit("setMessage", null);
           commit("setCurrentForecast", res.data.current);
           commit("setDailyForecast", res.data.daily);
