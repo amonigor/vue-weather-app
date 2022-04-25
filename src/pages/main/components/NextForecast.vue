@@ -13,6 +13,31 @@
           <p class="item">Vento <span>1.54 m/s</span></p>
         </div>
       </div>
+      <div class="during-day">
+        <table>
+          <tr>
+            <th></th>
+            <th>Manhã</th>
+            <th>Tarde</th>
+            <th>Noite</th>
+            <th>Madrugada</th>
+          </tr>
+          <tr>
+            <td class="row-title">TEMPERATURA</td>
+            <td>23 ºC</td>
+            <td>23 ºC</td>
+            <td>23 ºC</td>
+            <td>23 ºC</td>
+          </tr>
+          <tr>
+            <td class="row-title">SENSAÇÃO</td>
+            <td>23 ºC</td>
+            <td>23 ºC</td>
+            <td>23 ºC</td>
+            <td>23 ºC</td>
+          </tr>
+        </table>
+      </div>
     </Card>
 
     <div class="next-days">
@@ -47,6 +72,56 @@ p {
 
 .tomorrow {
   width: 40%;
+
+  .weather {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+
+    .temperature {
+      .max {
+        margin-bottom: 10px;
+        font-weight: 600;
+      }
+    }
+
+    .details {
+      .item {
+        span {
+          font-weight: 600;
+        }
+      }
+    }
+  }
+
+  .during-day {
+    table {
+      text-align: center;
+      // width: 100%;
+    }
+
+    th,
+    td {
+      font-size: 0.75rem;
+      font-weight: 400;
+    }
+    
+    .row-title {
+      text-align: left;
+    }
+
+    th, td {
+      padding: 5px;
+
+      &:first-child {
+        padding-left: 0;
+      }
+
+      &:last-child {
+        padding-left: 0;
+      }
+    }
+  }
 }
 
 .next-days {
@@ -86,7 +161,13 @@ p {
 }
 
 @media only screen and (max-width: 900px) {
+  .tomorrow {
+    width: 50%;
+  }
+
   .next-days {
+    width: 50%;
+
     .simple {
       width: calc(50% - 15px);
       margin-left: 15px;
