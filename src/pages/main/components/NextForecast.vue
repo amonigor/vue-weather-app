@@ -15,7 +15,7 @@
           <p class="item">
             Umidade <span>{{ tomorrowForecast.humidity }}%</span>
           </p>
-          <p class="item">
+          <p class="item" v-if="tomorrowForecast.rain">
             Precipitação <span>{{ tomorrowForecast.rain }} mm</span>
           </p>
         </div>
@@ -94,7 +94,7 @@ export default {
   },
   methods: {
     moment,
-  },
+  }
 };
 </script>
 
