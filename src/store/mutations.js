@@ -14,7 +14,7 @@ export default {
   },
 
   /** Previous Locations Mutations */
-  addPreviousLocations(state, payload) {
+  addPreviousLocationsFromAPI(state, payload) {
     const location = {
       term: payload.term,
       address: payload.formatted_address,
@@ -25,6 +25,9 @@ export default {
     };
 
     state.previousLocations.push(location);
+  },
+  addPreviousLocationsFromLocalStorage(state, payload) {
+    state.previousLocations.push(payload);
   },
 
   /** Forecast Mutations */

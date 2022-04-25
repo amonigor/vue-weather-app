@@ -37,7 +37,7 @@ export default {
   name: "autocomplete-field",
   data() {
     return {
-      location: "São Vicente",
+      location: "",
       showSuggestions: false,
       suggestions: [],
     };

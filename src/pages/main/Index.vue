@@ -10,7 +10,7 @@
         v-if="currentLocation !== null && currentForecast !== null"
       />
     </transition>
-    
+
     <transition name="fade">
       <NextForecast class="row" v-if="dailyForecast.length > 0" />
     </transition>
@@ -21,13 +21,19 @@
 import AutocompleteField from "@/components/AutocompleteField.vue";
 import TodayForecast from "@/pages/main/components/TodayForecast.vue";
 import NextForecast from "@/pages/main/components/NextForecast.vue";
-import { mapState } from "vuex";
+import { mapState, mapActions } from "vuex";
 
 export default {
   name: "index-page",
   components: { AutocompleteField, TodayForecast, NextForecast },
   computed: {
     ...mapState(["currentLocation", "currentForecast", "dailyForecast"]),
+  },
+  methods: {
+    ...mapActions(["populatePreviousLocations"]),
+  },
+  created() {
+    this.populatePreviousLocations();
   },
 };
 </script>

@@ -1,11 +1,11 @@
 import axios from "axios";
 
 export default {
-  async searchLocation({ commit }, address) {
+  async searchLocation({ commit, dispatch }, address) {
     commit("setCurrentLocation", null);
     commit("setCurrentForecast", null);
     commit("setDailyForecast", []);
-    
+
     await axios
       .get(process.env.VUE_APP_GEOCODING_URL, {
         params: {
@@ -20,10 +20,11 @@ export default {
             term: address,
             ...res.data.results[0],
           });
-          commit("addPreviousLocations", {
+          commit("addPreviousLocationsFromAPI", {
             term: address,
             ...res.data.results[0],
           });
+          dispatch("savePreviousLocations");
           return;
         }
       });
@@ -32,7 +33,7 @@ export default {
   async searchForecast({ commit }, coordinates) {
     commit("setCurrentForecast", null);
     commit("setDailyForecast", []);
-    
+
     await axios
       .get(process.env.VUE_APP_WEATHER_URL, {
         params: {
@@ -46,11 +47,28 @@ export default {
       })
       .then((res) => {
         if (res.statusText === "OK") {
-          console.log(res.data)
+          console.log(res.data);
           commit("setCurrentForecast", res.data.current);
           commit("setDailyForecast", res.data.daily);
           return;
         }
       });
+  },
+
+  savePreviousLocations({ state }) {
+    window.localStorage.setItem(
+      "previousLocations",
+      JSON.stringify(state.previousLocations)
+    );
+  },
+
+  populatePreviousLocations({ commit }) {
+    const previousLocations = JSON.parse(
+      window.localStorage.getItem("previousLocations")
+    );
+
+    previousLocations?.forEach((location) => {
+      commit("addPreviousLocationsFromLocalStorage", location);
+    });
   },
 };
