@@ -64,7 +64,7 @@ export default {
         return suggestion.indexOf(term) !== -1;
       });
 
-      this.suggestions = newSuggestions;
+      this.suggestions = newSuggestions.reverse();
     },
     searchInSuggestions: function () {
       // Return the suggestion element or undefined
@@ -143,6 +143,9 @@ export default {
     handleKey: function name(evt) {
       if (evt.key === "Enter") this.getForecast();
     },
+  },
+  created() {
+    this.suggestions = this.previousLocations.reverse();
   },
 };
 </script>
