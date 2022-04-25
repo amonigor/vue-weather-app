@@ -110,7 +110,7 @@ p {
   }
 }
 
-@media only screen and (max-width: 500px) {
+@media only screen and (max-width: 650px) {
   .main,
   .other {
     min-height: unset;

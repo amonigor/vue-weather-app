@@ -4,16 +4,18 @@
       <AutocompleteField />
     </div>
     <TodayForecast class="row mb-30" />
+    <NextForecast class="row" />
   </div>
 </template>
 
 <script>
 import AutocompleteField from "@/components/AutocompleteField.vue";
 import TodayForecast from "@/pages/main/components/TodayForecast.vue";
+import NextForecast from "@/pages/main/components/NextForecast.vue";
 
 export default {
   name: "index-page",
-  components: { AutocompleteField, TodayForecast },
+  components: { AutocompleteField, TodayForecast, NextForecast },
 };
 </script>
 
@@ -21,8 +23,7 @@ export default {
 .container {
   width: 100%;
   max-width: 1200px;
-  height: 100vh;
-  overflow-y: auto;
+  height: 100%;
   padding: 80px 60px;
   margin: 0 auto;
   box-sizing: border-box;
@@ -59,10 +60,10 @@ export default {
   }
 }
 
-@media only screen and (max-width: 500px) {
+@media only screen and (max-width: 650px) {
   .container {
     padding: 20px 10px;
-    
+
     .row {
       &.mb-60 {
         margin-bottom: 20px;

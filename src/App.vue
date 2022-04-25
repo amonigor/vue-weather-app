@@ -19,10 +19,13 @@ export default {
 body {
   padding: 0;
   margin: 0;
-  background-image: linear-gradient(to bottom, #2868b4, #143a67);
   width: 100%;
-  height: 100vh;
+  height: 100%;
   font-family: "Roboto", sans-serif;
   color: #ffffff;
+}
+
+#app {
+  background-image: linear-gradient(to bottom, #2868b4, #143a67);
 }
 </style>

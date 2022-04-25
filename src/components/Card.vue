@@ -23,7 +23,7 @@ export default {
   box-sizing: border-box;
 }
 
-@media only screen and (max-width: 500px) {
+@media only screen and (max-width: 650px) {
   .card-container {
     padding: 30px 20px;
   }

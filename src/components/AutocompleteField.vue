@@ -171,7 +171,7 @@ export default {
   color: #ffffff;
 }
 
-@media only screen and (max-width: 500px) {
+@media only screen and (max-width: 650px) {
   .field-container {
     width: 100%;
 
