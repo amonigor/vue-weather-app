@@ -67,7 +67,9 @@
             {{ Math.round(forecast.temp.min) }} ºC
           </p>
         </div>
-        <img :src="`https://openweathermap.org/img/wn/${forecast.weather[0].icon}.png`" />
+        <img
+          :src="`https://openweathermap.org/img/wn/${forecast.weather[0].icon}.png`"
+        />
       </Card>
     </div>
   </div>
@@ -92,9 +94,6 @@ export default {
   },
   methods: {
     moment,
-  },
-  mounted() {
-    console.log(this.nextDaysForecast);
   },
 };
 </script>
