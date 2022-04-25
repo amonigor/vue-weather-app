@@ -27,5 +27,6 @@ body {
 
 #app {
   background-image: linear-gradient(to bottom, #2868b4, #143a67);
+  min-height: 100vh;
 }
 </style>

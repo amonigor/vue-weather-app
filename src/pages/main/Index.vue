@@ -3,8 +3,17 @@
     <div class="row center mb-60">
       <AutocompleteField />
     </div>
-    <TodayForecast class="row mb-30" />
-    <NextForecast class="row" />
+
+    <transition name="fade">
+      <TodayForecast
+        class="row mb-30"
+        v-if="currentLocation !== null && currentForecast !== null"
+      />
+    </transition>
+    
+    <transition name="fade">
+      <NextForecast class="row" v-if="dailyForecast.length > 0" />
+    </transition>
   </div>
 </template>
 
@@ -12,14 +21,27 @@
 import AutocompleteField from "@/components/AutocompleteField.vue";
 import TodayForecast from "@/pages/main/components/TodayForecast.vue";
 import NextForecast from "@/pages/main/components/NextForecast.vue";
+import { mapState } from "vuex";
 
 export default {
   name: "index-page",
   components: { AutocompleteField, TodayForecast, NextForecast },
+  computed: {
+    ...mapState(["currentLocation", "currentForecast", "dailyForecast"]),
+  },
 };
 </script>
 
 <style scoped lang="scss">
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+
 .container {
   width: 100%;
   max-width: 1200px;
