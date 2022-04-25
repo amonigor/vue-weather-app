@@ -5,7 +5,7 @@
       placeholder="Pesquise uma cidade"
       v-model="location"
       @focus="showSuggestions = true"
-      @focusout="showSuggestions = false"
+      @focusout="handleFocusOut"
       @input="filterSuggestions"
     />
     <button @click.prevent="getForecast">
@@ -18,7 +18,13 @@
         v-for="(suggestion, idx) in suggestions.slice(0, 5)"
         :key="idx"
       >
-        <a href="#">{{ suggestion.term }}</a>
+        <a
+          class="suggestion-btn"
+          href="javascript:void(0)"
+          @click.prevent="getForecastFromSuggestion(suggestion)"
+        >
+          {{ suggestion.term }}
+        </a>
       </li>
     </ul>
   </div>
@@ -43,7 +49,7 @@ export default {
     ...mapMutations(["setCurrentLocation"]),
     ...mapActions(["searchLocation", "searchForecast"]),
 
-    /** APIs functions */
+    /** Suggestion functions */
     filterSuggestions: function () {
       // Filter the suggestions by the search term
       const newSuggestions = this.previousLocations.filter((location) => {
@@ -60,6 +66,8 @@ export default {
         (suggestion) => suggestion.term === this.location
       );
     },
+
+    /** APIs functions */
     getForecast: async function () {
       // Search for the location given in the suggestions
       const suggestion = this.searchInSuggestions();
@@ -76,6 +84,11 @@ export default {
         this.searchForecast(this.currentLocation.coordinates);
       }
     },
+    getForecastFromSuggestion: function (suggestion) {
+      this.location = suggestion.term;
+      this.setCurrentLocation(suggestion);
+      this.searchForecast(suggestion.coordinates);
+    },
 
     /** Helpers */
     standardizeWord: function (word) {
@@ -88,6 +101,20 @@ export default {
         .replace(/[ç]/, "c")
         .replace(/[^a-z0-9]/gi, "")
         .toLowerCase();
+    },
+    handleFocusOut: function (evt) {
+      const target = evt.relatedTarget;
+
+      // If the target was a suggestion, it hide the suggestion
+      // after the click event
+      if (target?.classList.contains("suggestion-btn")) {
+        setTimeout(() => {
+          this.showSuggestions = false;
+        }, 100);
+        return;
+      }
+
+      this.showSuggestions = false;
     },
   },
 };
@@ -164,7 +191,7 @@ export default {
       font-size: 1rem;
       padding: 10px 20px;
 
-      a {
+      .suggestion-btn {
         text-decoration: none;
         color: #ffffff;
         display: inline-block;
@@ -174,7 +201,7 @@ export default {
       &:hover {
         background-color: #ffffff;
 
-        a {
+        .suggestion-btn {
           color: #a8a8a8;
         }
       }
