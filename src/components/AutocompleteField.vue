@@ -69,7 +69,9 @@ export default {
     searchInSuggestions: function () {
       // Return the suggestion element or undefined
       return this.suggestions.find(
-        (suggestion) => suggestion.term === this.location
+        (suggestion) =>
+          this.standardizeWord(suggestion.term) ===
+          this.standardizeWord(this.location)
       );
     },
 
