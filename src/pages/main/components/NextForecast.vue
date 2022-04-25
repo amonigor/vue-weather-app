@@ -235,4 +235,37 @@ p {
     }
   }
 }
+
+@media only screen and (max-width: 450px) {
+  .tomorrow {
+    .weather {
+      .details {
+        .item {
+          font-size: 0.75rem;
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 300px) {
+  .tomorrow {
+    .weather {
+      flex-wrap: wrap;
+
+      .details {
+        width: 100%;
+        margin-bottom: 20px;
+
+        .item {
+          margin-left: 0;
+        }
+      }
+    }
+
+    .during-day {
+      overflow-x: auto;
+    }
+  }
+}
 </style>
