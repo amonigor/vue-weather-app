@@ -2,6 +2,7 @@ import axios from "axios";
 
 export default {
   async searchLocation({ commit, dispatch }, address) {
+    commit("setMessage", "Carregando...");
     commit("setCurrentLocation", null);
     commit("setCurrentForecast", null);
     commit("setDailyForecast", []);
@@ -16,6 +17,7 @@ export default {
       })
       .then((res) => {
         if (res.data.status === "OK") {
+          commit("setMessage", null);
           commit("setCurrentLocationFromAPI", {
             term: address,
             ...res.data.results[0],
@@ -27,10 +29,13 @@ export default {
           dispatch("savePreviousLocations");
           return;
         }
+
+        commit("setMessage", "Não foi possível achar a localização informada.");
       });
   },
 
   async searchForecast({ commit }, coordinates) {
+    commit("setMessage", "Carregando...");
     commit("setCurrentForecast", null);
     commit("setDailyForecast", []);
 
@@ -47,11 +52,13 @@ export default {
       })
       .then((res) => {
         if (res.statusText === "OK") {
-          console.log(res.data);
+          commit("setMessage", null);
           commit("setCurrentForecast", res.data.current);
           commit("setDailyForecast", res.data.daily);
           return;
         }
+
+        commit("setMessage", "Não foi possível carregar a previsão.");
       });
   },
 

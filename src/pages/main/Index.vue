@@ -14,6 +14,12 @@
     <transition name="fade">
       <NextForecast class="row" v-if="dailyForecast.length > 0" />
     </transition>
+
+    <transition name="fade">
+      <div class="row center" v-if="message !== null">
+        <p>{{ message }}</p>
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -27,7 +33,12 @@ export default {
   name: "index-page",
   components: { AutocompleteField, TodayForecast, NextForecast },
   computed: {
-    ...mapState(["currentLocation", "currentForecast", "dailyForecast"]),
+    ...mapState([
+      "currentLocation",
+      "currentForecast",
+      "dailyForecast",
+      "message",
+    ]),
   },
   methods: {
     ...mapActions(["populatePreviousLocations"]),

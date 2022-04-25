@@ -11,6 +11,7 @@ export default new Vuex.Store({
     previousLocations: [],
     currentForecast: null,
     dailyForecast: [],
+    message: null,
   },
   mutations,
   actions,

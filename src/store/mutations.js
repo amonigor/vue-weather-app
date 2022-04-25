@@ -36,5 +36,10 @@ export default {
   },
   setDailyForecast(state, payload) {
     state.dailyForecast = payload;
+  },
+
+  /** Message Mutation */
+  setMessage(state, payload) {
+    state.message = payload;
   }
 };
